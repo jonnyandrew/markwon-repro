@@ -1,21 +1,24 @@
 package jonnyandrew.markwonrepro
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
+import jonnyandrew.markwonrepro.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var views : ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        views = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(views.root)
 
-        setInlineCodeFailing()
-        setInlineCodeWorking()
+        workingExample()
+        failingExample()
     }
 
-    private fun setInlineCodeWorking() {
+    private fun workingExample() {
         val markwon = Markwon.builder(this)
             .usePlugin(HtmlPlugin.create())
             .build()
@@ -26,22 +29,24 @@ class MainActivity : AppCompatActivity() {
 
         val spanned = markwon.render(node)
 
-        val text1 = findViewById<TextView>(R.id.text1)
-        markwon.setParsedMarkdown(text1, spanned)
+        markwon.setParsedMarkdown(views.workingExampleText, spanned)
     }
 
-    private fun setInlineCodeFailing() {
+    private fun failingExample() {
         val markwon = Markwon.builder(this)
             .usePlugin(HtmlPlugin.create())
             .build()
 
+        // Parse a block node
+        val blocknode = markwon.parse("A <div>block</div>")
+        markwon.render(blocknode)
+
         val node = markwon.parse(
-                "A <div>block</div>Here is some failing <code>inline code</code>."
+                "Here is some failing <code>inline code</code>."
         )
 
         val spanned = markwon.render(node)
 
-        val text2 = findViewById<TextView>(R.id.text2)
-        markwon.setParsedMarkdown(text2, spanned)
+        markwon.setParsedMarkdown(views.failingExampleText, spanned)
     }
 }

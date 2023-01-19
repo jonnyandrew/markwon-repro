@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/working_example_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
@@ -15,10 +15,11 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/text2"
+        android:id="@+id/failing_example_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="Hello World!"
         android:textSize="24sp" />
+
 </LinearLayout>
